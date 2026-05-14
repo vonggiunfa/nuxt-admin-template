@@ -65,16 +65,16 @@ function requestSignOut() {
     >
       <SidebarTrigger variant="outline" class="max-md:scale-125 -ms-1" />
       <Separator orientation="vertical" class="h-6" />
-      <div class="flex min-w-0 flex-1 items-center gap-2">
+      <div class="flex min-w-0 flex-1 items-center">
         <NuxtLink
           to="/"
           class="shrink-0 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
         >
           仪表盘
         </NuxtLink>
-        <Search class="me-auto min-w-0" />
       </div>
-      <div class="flex items-center gap-2">
+      <div class="flex shrink-0 items-center gap-2">
+        <Search />
         <ThemeSwitch />
         <DropdownMenu>
           <DropdownMenuTrigger as-child>
