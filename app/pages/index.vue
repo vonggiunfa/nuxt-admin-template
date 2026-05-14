@@ -21,7 +21,7 @@ definePageMeta({ layout: 'authenticated' })
 </script>
 
 <template>
-  <div class="flex min-h-0 flex-1 flex-col overflow-hidden">
+  <div class="flex min-h-0 flex-1 flex-col">
     <AppHeader />
     <AppMain>
       <div class="mb-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">

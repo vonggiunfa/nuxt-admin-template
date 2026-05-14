@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { LogOut } from 'lucide-vue-next'
+import SignOutDialog from '@/components/layout/SignOutDialog.vue'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,15 +11,11 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar'
 
-const { logout } = useAuthSession()
-
-async function onSignOut() {
-  logout()
-  await navigateTo('/sign-in')
-}
+const signOutOpen = ref(false)
 </script>
 
 <template>
+  <SignOutDialog v-model:open="signOutOpen" />
   <SidebarMenu>
     <SidebarMenuItem>
       <DropdownMenu>
@@ -54,7 +51,7 @@ async function onSignOut() {
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem @click="onSignOut">
+          <DropdownMenuItem @click.prevent="signOutOpen = true">
             <LogOut class="size-4" />
             退出登录
           </DropdownMenuItem>
