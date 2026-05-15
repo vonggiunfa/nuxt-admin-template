@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ConfirmDialog from '@/components/layout/ConfirmDialog.vue'
 
-const open = defineModel<boolean>({ required: true })
+const open = defineModel<boolean>('open', { required: true })
 
 const route = useRoute()
 const { logout } = useAuthSession()

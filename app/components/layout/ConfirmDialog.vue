@@ -28,7 +28,7 @@ const props = withDefaults(defineProps<Props>(), {
   contentClass: '',
 })
 
-const open = defineModel<boolean>({ required: true })
+const open = defineModel<boolean>('open', { required: true })
 
 const emits = defineEmits<{
   confirm: []

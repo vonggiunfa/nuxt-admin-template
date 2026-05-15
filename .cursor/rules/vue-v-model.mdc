@@ -1,0 +1,32 @@
+---
+description: Vue 子组件 defineModel 与父级 v-model 参数名必须一致，避免缺 prop 警告与静默失效
+globs: "**/*.vue"
+---
+
+# `v-model` / `defineModel` 命名一致
+
+## 规则
+
+- 父组件写 **`v-model:open`**（或任意名 `xxx`）时，子组件须使用 **`defineModel<Type>('open')`**（同名 **`'xxx'`）。
+- 无参 **`defineModel()`** 仅对应父级 **`v-model`**（即 prop **`modelValue`** / 事件 **`update:modelValue`**），**不**对应 **`v-model:open`**。
+
+## 反例（会产生 Missing required prop "modelValue" 或绑定不生效）
+
+```vue
+<!-- 父 -->
+<Child v-model:open="visible" />
+
+<!-- 子 —— 错误：等价于要求 modelValue -->
+const x = defineModel<boolean>({ required: true })
+```
+
+## 正例
+
+```vue
+<!-- 子 -->
+const open = defineModel<boolean>('open', { required: true })
+```
+
+## 自检
+
+新增可开关的对话框/抽屉等组件后，扫一眼父级用的是 `v-model` 还是 `v-model:某名`，与子组件 **`defineModel` 第一个参数**是否一致。
