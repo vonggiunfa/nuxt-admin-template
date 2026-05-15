@@ -130,14 +130,55 @@
 
 ---
 
-## 12. 变更与验收
+## 12. 组件新增与修改：参照顺序与检查清单
+
+**目的**：新增或改动任意业务/布局组件时，优先与现有 Nuxt 模板的 **排版、样式、交互** 一致；**不以** `react-template/` 为 Cursor 规则或强制实现参照（对照见 **§11**）。
+
+### 12.1 阅读顺序（建议按序）
+
+1. **本文** — **§4–§9**（字体、圆角、认证壳与宽度 B、间距栅格、`ui/*` 与 `cn()`、图标）；**§10**（禁止项）。  
+2. **`app/assets/css/main.css`** — 是否需要新 token；禁止在业务里自造配色体系。  
+3. **壳层** — **`app/layouts/authenticated.vue`**、`AppSidebar`、`AppHeader`、`AppMain`：是否仍只有一套 inset 侧栏 + `AppMain` 包正文；**宽度 B** 与 **`id="main-content"`** 是否仍成立。  
+4. **UI primitive** — **`app/components/ui/*`**：是否应扩展 variant / `class` / `cn()`，而非在业务里复制一份控件样式。  
+5. **业务表单** — **`.cursor/rules/forms-paradigm.mdc`** 与 **`app/plugins/vee-validate-config.ts`**（提交时校验、`Form` 族、`FormMessage`、toast / loading）。  
+6. **`v-model` 命名** — **`.cursor/rules/vue-v-model.mdc`**（`defineModel('open')` 与 `v-model:open` 一致等）。  
+7. **与壳层强相关的专项** — `docs/superpowers/specs/` 中已采纳的说明（例如 authenticated 壳与滚动、设置侧栏等），避免与已定行为冲突。
+
+### 12.2 检查清单（自检打勾）
+
+**布局**
+
+- [ ] 认证内页仍经由 **`AppMain`** 包裹正文（例外页已在需求/文档中说明）。  
+- [ ] **`AppMain`** 含 **宽度 B**：`@7xl/content:mx-auto @7xl/content:w-full @7xl/content:max-w-7xl`，以及 **`p-4 md:p-6`**、**`gap-4 md:gap-6`**（除非该文件明确承担「全宽」且已文档化）。  
+- [ ] 未引入第二套顶栏/侧栏壳层。
+
+**样式**
+
+- [ ] 颜色与边框使用 **语义类**（`bg-background`、`text-foreground`、`border-border`、`text-muted-foreground` 等），无未入 `main.css` 的裸 hex / 随意 `gray-*`。  
+- [ ] 类名合并使用 **`cn()`**；复杂控件优先 **`@/components/ui/*`**。  
+- [ ] 图标为 **Lucide**（`lucide-vue-next`），行内常用 **`size-4`**。  
+- [ ] 暗色仍依赖 **`html.dark`**，无单页私调色板。
+
+**交互**
+
+- [ ] 可点击元素使用 **Button / Link / menu item** 等语义化控件，非裸 `div` 冒充按钮。  
+- [ ] 表单类页符合 **forms-paradigm**（含 **`FormMessage`**、提交时 loading、**`toast.promise`** 等约定）。  
+- [ ] 需要 `v-model:*` 的封装组件与 **`defineModel` 参数名**一致。
+
+**可达性**
+
+- [ ] 主内容根上 **`id="main-content"`** 与「跳到主内容」链未被破坏。
+
+---
+
+## 13. 变更与验收
 
 - 改设计 token 后：跑 **`pnpm run build`**；宽屏检查 **`AppMain` 内容不超过 `max-w-7xl` 且居中**。  
 - 新增页面：与仪表盘并置对比 **背景、字色、圆角、主内容宽度**，无跳变。
 
 ---
 
-## 13. Cursor 规则放置说明
+## 14. Cursor 规则放置说明
 
-- **规则文件**：**`.cursor/rules/design-system.mdc`**（相对于本 Nuxt 工程根）。`globs` 为 `**/*.{vue,ts}`，在 Cursor 中以**本仓库根目录**打开工程即可加载。  
-- **单一事实来源**：**`docs/design-system.md`（本文件）**；流程类文档见 **`docs/superpowers/`**。
+- **规则文件**：**`.cursor/rules/design-system.mdc`**（相对于本 Nuxt 工程根）。`globs` 为 `**/*.{vue,ts}`，在 Cursor 中以 **本 Nuxt 工程根目录**（`nuxt-template/`）打开工程即可稳定加载。若以 **仓库单仓多包根目录** 打开且规则未命中，可将 Cursor 工作区设为 `nuxt-template/` 或于仓库根增加仅指针类规则（可选）。  
+- **单一事实来源**：**`docs/design-system.md`（本文件）**；流程类文档见 **`docs/superpowers/`**。新增/修改组件时优先阅读 **§12**。
