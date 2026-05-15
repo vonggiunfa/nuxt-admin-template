@@ -16,6 +16,8 @@ defineOptions({
   inheritAttrs: false,
 })
 
+useDialogRootScrollLock()
+
 const props = withDefaults(defineProps<DialogContentProps & { class?: HTMLAttributes["class"], showCloseButton?: boolean }>(), {
   showCloseButton: true,
 })

@@ -20,14 +20,12 @@ export function buildInitialUsers(): User[] {
       status: faker.helpers.arrayElement([
         'active',
         'inactive',
-        'invited',
         'suspended',
       ]) as User['status'],
       role: faker.helpers.arrayElement([
         'superadmin',
-        'admin',
-        'cashier',
-        'manager',
+        'lead',
+        'employee',
       ]) as User['role'],
       createdAt: faker.date.past(),
       updatedAt: faker.date.recent(),

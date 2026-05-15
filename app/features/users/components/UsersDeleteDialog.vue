@@ -11,11 +11,16 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { roles } from '../data/data'
 import type { User } from '../schema'
 
 const props = defineProps<{
   user: User
 }>()
+
+const roleLabel = computed(
+  () => roles.find(r => r.value === props.user.role)?.label ?? props.user.role,
+)
 
 const open = defineModel<boolean>('open', { required: true })
 
@@ -54,7 +59,7 @@ function submit() {
           确定要删除用户
           <span class="font-semibold text-foreground">{{ user.username }}</span>
           吗？该用户角色为
-          <span class="font-semibold text-foreground">{{ user.role.toUpperCase() }}</span>
+          <span class="font-semibold text-foreground">{{ roleLabel }}</span>
           ，操作不可恢复。
         </p>
 
@@ -74,7 +79,7 @@ function submit() {
           </AlertDescription>
         </Alert>
 
-        <DialogFooter class="gap-2 sm:gap-0">
+        <DialogFooter>
           <Button type="button" variant="outline" @click="open = false">
             取消
           </Button>

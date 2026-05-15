@@ -12,7 +12,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Separator } from '@/components/ui/separator'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
@@ -80,15 +79,7 @@ function requestSignOut() {
       "
     >
       <SidebarTrigger variant="outline" class="max-md:scale-125 -ms-1" />
-      <Separator orientation="vertical" class="h-6" />
-      <div class="flex min-w-0 flex-1 items-center">
-        <NuxtLink
-          to="/"
-          class="shrink-0 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-        >
-          仪表盘
-        </NuxtLink>
-      </div>
+      <div class="flex min-w-0 flex-1 items-center" />
       <div class="flex shrink-0 items-center gap-2">
         <Search />
         <ThemeSwitch />

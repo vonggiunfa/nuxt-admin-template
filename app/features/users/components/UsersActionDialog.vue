@@ -129,10 +129,18 @@ const initialValues = computed(() => {
     phoneNumber: '',
     password: '',
     confirmPassword: '',
-    role: 'cashier',
+    role: 'employee',
     isEdit: false,
   }
 })
+
+/** 与 react-hook-form 默认行为对齐：仅在提交时触发校验 */
+const submitOnlyValidation = {
+  validateOnBlur: false,
+  validateOnChange: false,
+  validateOnInput: false,
+  validateOnModelUpdate: false,
+} as const
 
 const onFormSubmit = (values: unknown) => {
   const v = values as FormValues
@@ -182,7 +190,7 @@ const onFormSubmit = (values: unknown) => {
       >
         <div class="h-105 w-[calc(100%+0.75rem)] overflow-y-auto py-1 pe-3">
           <div class="space-y-4 px-0.5">
-            <FormField v-slot="{ componentField }" name="firstName">
+            <FormField v-slot="{ componentField }" name="firstName" v-bind="submitOnlyValidation">
               <FormItem class="grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0">
                 <FormLabel class="col-span-2 text-end">
                   名字
@@ -194,7 +202,7 @@ const onFormSubmit = (values: unknown) => {
               </FormItem>
             </FormField>
 
-            <FormField v-slot="{ componentField }" name="lastName">
+            <FormField v-slot="{ componentField }" name="lastName" v-bind="submitOnlyValidation">
               <FormItem class="grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0">
                 <FormLabel class="col-span-2 text-end">
                   姓氏
@@ -206,7 +214,7 @@ const onFormSubmit = (values: unknown) => {
               </FormItem>
             </FormField>
 
-            <FormField v-slot="{ componentField }" name="username">
+            <FormField v-slot="{ componentField }" name="username" v-bind="submitOnlyValidation">
               <FormItem class="grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0">
                 <FormLabel class="col-span-2 text-end">
                   用户名
@@ -218,7 +226,7 @@ const onFormSubmit = (values: unknown) => {
               </FormItem>
             </FormField>
 
-            <FormField v-slot="{ componentField }" name="email">
+            <FormField v-slot="{ componentField }" name="email" v-bind="submitOnlyValidation">
               <FormItem class="grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0">
                 <FormLabel class="col-span-2 text-end">
                   邮箱
@@ -230,7 +238,7 @@ const onFormSubmit = (values: unknown) => {
               </FormItem>
             </FormField>
 
-            <FormField v-slot="{ componentField }" name="phoneNumber">
+            <FormField v-slot="{ componentField }" name="phoneNumber" v-bind="submitOnlyValidation">
               <FormItem class="grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0">
                 <FormLabel class="col-span-2 text-end">
                   电话
@@ -242,7 +250,7 @@ const onFormSubmit = (values: unknown) => {
               </FormItem>
             </FormField>
 
-            <FormField v-slot="{ value, handleChange }" name="role">
+            <FormField v-slot="{ value, handleChange }" name="role" v-bind="submitOnlyValidation">
               <FormItem class="grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0">
                 <FormLabel class="col-span-2 text-end">
                   角色
@@ -265,7 +273,7 @@ const onFormSubmit = (values: unknown) => {
               </FormItem>
             </FormField>
 
-            <FormField v-slot="{ componentField }" name="password">
+            <FormField v-slot="{ componentField }" name="password" v-bind="submitOnlyValidation">
               <FormItem class="grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0">
                 <FormLabel class="col-span-2 text-end">
                   密码
@@ -283,7 +291,7 @@ const onFormSubmit = (values: unknown) => {
               </FormItem>
             </FormField>
 
-            <FormField v-slot="{ componentField }" name="confirmPassword">
+            <FormField v-slot="{ componentField }" name="confirmPassword" v-bind="submitOnlyValidation">
               <FormItem class="grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0">
                 <FormLabel class="col-span-2 text-end">
                   确认密码

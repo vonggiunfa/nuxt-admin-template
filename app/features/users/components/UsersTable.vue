@@ -20,7 +20,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { roles } from '../data/data'
+import { roles, userStatusLabels } from '../data/data'
 import { useUsersTableUrlState } from '../composables/useUsersTableUrlState'
 import { useUsersWorkspace } from '../composables/useUsersWorkspace'
 import UsersDataTableBulkActions from './UsersDataTableBulkActions.vue'
@@ -103,12 +103,9 @@ watchEffect(() => {
         {
           columnId: 'status',
           title: '状态',
-          options: [
-            { label: '活跃', value: 'active' },
-            { label: '未活跃', value: 'inactive' },
-            { label: '已邀请', value: 'invited' },
-            { label: '已暂停', value: 'suspended' },
-          ],
+          options: (Object.keys(userStatusLabels) as Array<keyof typeof userStatusLabels>).map(
+            key => ({ label: userStatusLabels[key], value: key }),
+          ),
         },
         {
           columnId: 'role',

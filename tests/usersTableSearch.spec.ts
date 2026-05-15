@@ -42,14 +42,14 @@ describe('parseUsersRouteQuery', () => {
         pageSize: '20',
         username: 'foo',
         status: ['active', 'inactive'],
-        role: 'admin',
+        role: 'lead',
       }),
     ).toEqual({
       page: 2,
       pageSize: 20,
       username: 'foo',
       status: ['active', 'inactive'],
-      role: ['admin'],
+      role: ['lead'],
     })
   })
 })

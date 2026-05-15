@@ -57,12 +57,12 @@ const route = useRoute()
           <SidebarMenuItem>
             <SidebarMenuButton
               as-child
-              tooltip="用户列表"
+              tooltip="用户管理"
               :is-active="route.path === '/users' || route.path.startsWith('/users/')"
             >
               <NuxtLink to="/users">
                 <Users />
-                <span>用户列表</span>
+                <span>用户管理</span>
               </NuxtLink>
             </SidebarMenuButton>
           </SidebarMenuItem>

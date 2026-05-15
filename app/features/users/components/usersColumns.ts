@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
 import DataTableColumnHeader from '@/components/data-table/DataTableColumnHeader.vue'
 import { cn } from '@/lib/utils'
-import { callTypes, roles } from '../data/data'
+import { callTypes, roles, userStatusLabels } from '../data/data'
 import type { User } from '../schema'
 import DataTableRowActions from './DataTableRowActions.vue'
 
@@ -88,14 +88,15 @@ export const usersColumns: ColumnDef<User>[] = [
     cell: ({ row }) => {
       const status = row.original.status
       const badgeColor = callTypes.get(status) ?? ''
+      const statusLabel = userStatusLabels[status]
       return h('div', { class: 'flex space-x-2' }, [
         h(
           Badge,
           {
             variant: 'outline',
-            class: cn('capitalize', badgeColor),
+            class: cn(badgeColor),
           },
-          () => String(row.getValue('status')),
+          () => statusLabel,
         ),
       ])
     },
@@ -116,7 +117,7 @@ export const usersColumns: ColumnDef<User>[] = [
       }
       return h('div', { class: 'flex items-center gap-x-2' }, [
         h(userType.icon, { class: 'size-4 text-muted-foreground' }),
-        h('span', { class: 'text-sm capitalize' }, String(row.getValue('role'))),
+        h('span', { class: 'text-sm' }, userType.label),
       ])
     },
     filterFn: (row, id, value) =>

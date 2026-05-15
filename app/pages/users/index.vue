@@ -18,11 +18,8 @@ provideUsersWorkspace()
       <div class="flex flex-wrap items-end justify-between gap-2">
         <div>
           <h2 class="text-2xl font-bold tracking-tight">
-            用户列表
+            用户管理
           </h2>
-          <p class="text-muted-foreground">
-            在此管理本地示例用户及其角色。
-          </p>
         </div>
         <UsersPrimaryButtons />
       </div>

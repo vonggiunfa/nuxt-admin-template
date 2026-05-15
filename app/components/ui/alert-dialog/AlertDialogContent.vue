@@ -14,6 +14,8 @@ defineOptions({
   inheritAttrs: false,
 })
 
+useDialogRootScrollLock()
+
 const props = defineProps<AlertDialogContentProps & { class?: HTMLAttributes["class"] }>()
 const emits = defineEmits<AlertDialogContentEmits>()
 

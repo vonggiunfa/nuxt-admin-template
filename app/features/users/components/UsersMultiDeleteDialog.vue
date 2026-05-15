@@ -79,7 +79,7 @@ function submit() {
           </AlertDescription>
         </Alert>
 
-        <DialogFooter class="gap-2 sm:gap-0">
+        <DialogFooter>
           <Button type="button" variant="outline" @click="open = false">
             取消
           </Button>
