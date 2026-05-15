@@ -16,7 +16,7 @@ type Item = { title: string; href: string; icon: Component }
 
 const items: Item[] = [
   { title: '个人资料', href: '/settings', icon: UserCog },
-  { title: '账户', href: '/settings/account', icon: Wrench },
+  { title: '个人账户', href: '/settings/account', icon: Wrench },
 ]
 
 const route = useRoute()

@@ -38,7 +38,7 @@ const { state, isMobile, setOpenMobile } = useSidebar()
 
 const SETTINGS_CHILDREN = [
   { title: '个人资料', to: '/settings', icon: UserCog },
-  { title: '账户', to: '/settings/account', icon: Wrench },
+  { title: '个人账户', to: '/settings/account', icon: Wrench },
 ] as const
 
 function isSettingsSectionActive(): boolean {

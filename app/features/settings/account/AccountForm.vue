@@ -137,7 +137,7 @@ const onSubmit: SubmissionHandler<AccountFormValues> = (values) => {
     </FormField>
 
     <Button type="submit">
-      更新账户
+      更新个人账户
     </Button>
   </Form>
 </template>

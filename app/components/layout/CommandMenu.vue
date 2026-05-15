@@ -57,13 +57,13 @@ function setDark(value: boolean) {
           个人资料
         </CommandItem>
         <CommandItem
-          value="账户"
+          value="个人账户"
           @select="runCommand(() => navigateTo('/settings/account'))"
         >
           <div class="flex size-4 items-center justify-center">
             <ArrowRight class="size-2 text-muted-foreground/80" />
           </div>
-          账户
+          个人账户
         </CommandItem>
       </CommandGroup>
       <CommandSeparator />

@@ -7,8 +7,8 @@ definePageMeta({ layout: 'authenticated' })
 
 <template>
   <SettingsContentSection
-    title="账户"
-    desc="更新账户设置，设置首选语言与时区。"
+    title="个人账户"
+    desc="更新个人账户设置，设置首选语言与时区。"
   >
     <AccountForm />
   </SettingsContentSection>
