@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import NavUser from '@/components/layout/NavUser.vue'
-import { LayoutDashboard } from 'lucide-vue-next'
+import { LayoutDashboard, Users } from 'lucide-vue-next'
 import {
   Sidebar,
   SidebarContent,
@@ -50,6 +50,19 @@ const route = useRoute()
               <NuxtLink to="/">
                 <LayoutDashboard />
                 <span>仪表盘</span>
+              </NuxtLink>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              as-child
+              tooltip="用户列表"
+              :is-active="route.path === '/users' || route.path.startsWith('/users/')"
+            >
+              <NuxtLink to="/users">
+                <Users />
+                <span>用户列表</span>
               </NuxtLink>
             </SidebarMenuButton>
           </SidebarMenuItem>

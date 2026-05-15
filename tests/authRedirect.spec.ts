@@ -6,6 +6,10 @@ describe('getAuthRedirect', () => {
     expect(getAuthRedirect('/', false)).toEqual({ redirect: '/sign-in' })
   })
 
+  it('未登录访问 /users 时重定向到 /sign-in', () => {
+    expect(getAuthRedirect('/users', false)).toEqual({ redirect: '/sign-in' })
+  })
+
   it('未登录可访问 /sign-in', () => {
     expect(getAuthRedirect('/sign-in', false)).toBeNull()
   })

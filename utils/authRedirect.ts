@@ -5,7 +5,8 @@ export function getAuthRedirect(path: string, authed: boolean): AuthRedirectResu
   const isAuthPage =
     path === '/sign-in' || path === '/sign-up' || path === '/forgot-password'
 
-  if (!authed && path === '/') return { redirect: '/sign-in' }
+  if (!authed && (path === '/' || path === '/users'))
+    return { redirect: '/sign-in' }
 
   if (authed && isAuthPage) return { redirect: '/' }
 
