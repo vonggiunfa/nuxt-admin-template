@@ -119,9 +119,8 @@ watch(
       <SidebarGroup>
         <SidebarGroupLabel>其它</SidebarGroupLabel>
         <SidebarMenu>
-          <!-- 折叠图标栏：下拉对标 react SidebarMenuCollapsedDropdown -->
-          <SidebarMenuItem v-if="state === 'collapsed' && !isMobile">
-            <DropdownMenu>
+          <SidebarMenuItem>
+            <DropdownMenu v-if="state === 'collapsed' && !isMobile">
               <DropdownMenuTrigger as-child>
                 <SidebarMenuButton
                   tooltip="设置"
@@ -153,11 +152,8 @@ watch(
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          </SidebarMenuItem>
 
-          <!-- 展开侧栏：Collapsible + SubMenu 对标 react SidebarMenuCollapsible -->
-          <SidebarMenuItem v-else>
-            <Collapsible v-model:open="settingsCollapsibleOpen" class="group/collapsible w-full">
+            <Collapsible v-else v-model:open="settingsCollapsibleOpen" class="group/collapsible w-full">
               <CollapsibleTrigger as-child>
                 <SidebarMenuButton tooltip="设置" :is-active="isSettingsSectionActive()">
                   <Settings />

@@ -18,7 +18,8 @@ import {
 } from '@/components/ui/popover'
 
 const props = defineProps<{
-  modelValue?: Date | null
+  /** vee-validate 可能传入 Date / ISO 字符串 / 空值 */
+  modelValue?: Date | string | number | null
 }>()
 
 const emit = defineEmits<{
@@ -34,41 +35,73 @@ const df = new DateFormatter('zh-CN', { dateStyle: 'medium' })
 
 const inner = ref<DateValue | undefined>()
 
+/** 统一把表单值转成合法 JS Date；无效则 undefined（Invalid Date 也是无效的） */
+function toJsDate(value: unknown): Date | undefined {
+  if (value == null || value === '')
+    return undefined
+  if (value instanceof Date)
+    return Number.isNaN(value.getTime()) ? undefined : value
+  if (typeof value === 'string' || typeof value === 'number') {
+    const d = new Date(value)
+    return Number.isNaN(d.getTime()) ? undefined : d
+  }
+  return undefined
+}
+
+/** Calendar / DateFormatter 使用的日历日期；任意步骤失败返回 undefined，禁止向外抛错 */
+function toCalendarDateSafe(value: unknown): DateValue | undefined {
+  const d = toJsDate(value)
+  if (!d)
+    return undefined
+  try {
+    return fromDate(d, tz)
+  }
+  catch {
+    return undefined
+  }
+}
+
 watch(
   () => props.modelValue,
-  (d) => {
-    inner.value = d ? fromDate(d, tz) : undefined
+  (v) => {
+    inner.value = toCalendarDateSafe(v)
   },
   { immediate: true },
 )
+
+/** 按钮展示文案；无效日期返回 ''，绝不抛错（避免 Invalid Date / 字符串 schema 导致 RangeError） */
+const buttonLabel = computed(() => {
+  const cal = toCalendarDateSafe(props.modelValue)
+  if (!cal)
+    return ''
+  try {
+    return df.format(cal)
+  }
+  catch {
+    return ''
+  }
+})
 
 function onInnerUpdate(v: DateValue | undefined, close: () => void) {
   inner.value = v
   emit('update:modelValue', v ? v.toDate(tz) : undefined)
   close()
 }
-
-function formatButtonLabel(): string {
-  if (!props.modelValue)
-    return ''
-  return df.format(fromDate(props.modelValue, tz))
-}
 </script>
 
 <template>
-  <!-- 不用 v-model:open：与 PopoverRoot 内部 useVModel 叠在一起时易导致点击无法切换 -->
   <Popover v-slot="{ close }">
     <PopoverTrigger as-child>
       <Button
         type="button"
         variant="outline"
-        :data-empty="modelValue ? undefined : true"
+        :data-empty="buttonLabel ? undefined : true"
         :class="cn(
           'w-60 justify-start text-start font-normal',
-          !modelValue && 'text-muted-foreground',
+          !buttonLabel && 'text-muted-foreground',
         )"
       >
-        <span v-if="modelValue">{{ formatButtonLabel() }}</span>
+        <span v-if="buttonLabel">{{ buttonLabel }}</span>
         <span v-else>选择日期</span>
         <CalendarIcon class="ms-auto h-4 w-4 opacity-50" />
       </Button>

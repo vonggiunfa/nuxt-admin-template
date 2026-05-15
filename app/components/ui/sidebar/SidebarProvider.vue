@@ -1,17 +1,22 @@
 <script setup lang="ts">
 import type { HTMLAttributes, Ref } from "vue"
-import { defaultDocument, useEventListener, useMediaQuery, useVModel } from "@vueuse/core"
+import { useEventListener, useMediaQuery, useVModel } from "@vueuse/core"
 import { TooltipProvider } from "reka-ui"
-import { computed, ref } from "vue"
+import { computed, onMounted, ref, shallowRef, watch } from "vue"
 import { cn } from "@/lib/utils"
 import { provideSidebarContext, SIDEBAR_COOKIE_MAX_AGE, SIDEBAR_COOKIE_NAME, SIDEBAR_KEYBOARD_SHORTCUT, SIDEBAR_WIDTH, SIDEBAR_WIDTH_ICON } from "./utils"
+
+const sidebarCookie = useCookie<string | undefined>(SIDEBAR_COOKIE_NAME, {
+  path: "/",
+  maxAge: SIDEBAR_COOKIE_MAX_AGE,
+})
 
 const props = withDefaults(defineProps<{
   defaultOpen?: boolean
   open?: boolean
   class?: HTMLAttributes["class"]
 }>(), {
-  defaultOpen: !defaultDocument?.cookie.includes(`${SIDEBAR_COOKIE_NAME}=false`),
+  defaultOpen: true,
   open: undefined,
 })
 
@@ -19,19 +24,37 @@ const emits = defineEmits<{
   "update:open": [open: boolean]
 }>()
 
-const isMobile = useMediaQuery("(max-width: 768px)")
+function seedOpenFromCookie(): boolean {
+  const c = sidebarCookie.value
+  if (c === "false")
+    return false
+  if (c === "true")
+    return true
+  return props.defaultOpen ?? true
+}
+
+const mqMatches = useMediaQuery("(max-width: 768px)")
+const isMobile = shallowRef(false)
+
+onMounted(() => {
+  isMobile.value = mqMatches.value
+  watch(mqMatches, v => {
+    isMobile.value = v
+  })
+})
 const openMobile = ref(false)
 
 const open = useVModel(props, "open", emits, {
-  defaultValue: props.defaultOpen ?? false,
+  defaultValue: seedOpenFromCookie(),
   passive: (props.open === undefined) as false,
 }) as Ref<boolean>
 
 function setOpen(value: boolean) {
-  open.value = value // emits('update:open', value)
-
-  // This sets the cookie to keep the sidebar state.
-  document.cookie = `${SIDEBAR_COOKIE_NAME}=${open.value}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
+  open.value = value
+  sidebarCookie.value = String(value)
+  if (typeof document !== "undefined") {
+    document.cookie = `${SIDEBAR_COOKIE_NAME}=${open.value}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
+  }
 }
 
 function setOpenMobile(value: boolean) {
