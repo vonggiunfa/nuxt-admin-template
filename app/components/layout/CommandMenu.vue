@@ -39,13 +39,13 @@ function setDark(value: boolean) {
       <CommandEmpty>无结果。</CommandEmpty>
       <CommandGroup heading="导航">
         <CommandItem
-          value="仪表盘"
+          value="数据采集"
           @select="runCommand(() => navigateTo('/'))"
         >
           <div class="flex size-4 items-center justify-center">
             <ArrowRight class="size-2 text-muted-foreground/80" />
           </div>
-          仪表盘
+          数据采集
         </CommandItem>
         <CommandItem
           value="个人资料"

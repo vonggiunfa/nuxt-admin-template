@@ -94,12 +94,12 @@ watch(
           <SidebarMenuItem>
             <SidebarMenuButton
               as-child
-              tooltip="仪表盘"
+              tooltip="数据采集"
               :is-active="route.path === '/'"
             >
               <NuxtLink to="/">
                 <LayoutDashboard />
-                <span>仪表盘</span>
+                <span>数据采集</span>
               </NuxtLink>
             </SidebarMenuButton>
           </SidebarMenuItem>
