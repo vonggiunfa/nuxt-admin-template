@@ -166,7 +166,7 @@ const onFormSubmit = (values: unknown) => {
 
 <template>
   <Dialog :open="open" @update:open="(v: boolean) => emits('update:open', v)">
-    <DialogContent class="flex max-h-[min(105vh,var(--breakpoint-sm))] flex-col sm:max-w-lg">
+    <DialogContent class="sm:max-w-lg">
       <DialogHeader class="text-start">
         <DialogTitle>{{ isEdit ? '编辑用户' : '新建用户' }}</DialogTitle>
         <DialogDescription>
@@ -178,101 +178,123 @@ const onFormSubmit = (values: unknown) => {
         :key="formKey"
         :validation-schema="typedSchema"
         :initial-values="initialValues"
-        class="flex min-h-0 flex-col"
         :on-submit="onFormSubmit as SubmissionHandler"
       >
-        <div class="mb-4 max-h-[60vh] space-y-3 overflow-y-auto pe-3">
-          <FormField v-slot="{ componentField }" name="firstName">
-            <FormItem class="grid gap-2">
-              <FormLabel>名字</FormLabel>
-              <FormControl>
-                <Input v-bind="componentField" autocomplete="off" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          </FormField>
-
-          <FormField v-slot="{ componentField }" name="lastName">
-            <FormItem class="grid gap-2">
-              <FormLabel>姓氏</FormLabel>
-              <FormControl>
-                <Input v-bind="componentField" autocomplete="off" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          </FormField>
-
-          <FormField v-slot="{ componentField }" name="username">
-            <FormItem class="grid gap-2">
-              <FormLabel>用户名</FormLabel>
-              <FormControl>
-                <Input v-bind="componentField" autocomplete="username" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          </FormField>
-
-          <FormField v-slot="{ componentField }" name="email">
-            <FormItem class="grid gap-2">
-              <FormLabel>邮箱</FormLabel>
-              <FormControl>
-                <Input v-bind="componentField" type="email" autocomplete="off" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          </FormField>
-
-          <FormField v-slot="{ componentField }" name="phoneNumber">
-            <FormItem class="grid gap-2">
-              <FormLabel>电话</FormLabel>
-              <FormControl>
-                <Input v-bind="componentField" autocomplete="off" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          </FormField>
-
-          <FormField v-slot="{ value, handleChange }" name="role">
-            <FormItem class="grid gap-2">
-              <FormLabel>角色</FormLabel>
-              <Select :model-value="value" @update:model-value="handleChange">
-                <FormControl>
-                  <SelectTrigger class="w-full">
-                    <SelectValue placeholder="选择角色" />
-                  </SelectTrigger>
+        <div class="h-105 w-[calc(100%+0.75rem)] overflow-y-auto py-1 pe-3">
+          <div class="space-y-4 px-0.5">
+            <FormField v-slot="{ componentField }" name="firstName">
+              <FormItem class="grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0">
+                <FormLabel class="col-span-2 text-end">
+                  名字
+                </FormLabel>
+                <FormControl class="col-span-4">
+                  <Input v-bind="componentField" autocomplete="off" />
                 </FormControl>
-                <SelectContent>
-                  <SelectItem v-for="r in roles" :key="r.value" :value="r.value">
-                    {{ r.label }}
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          </FormField>
+                <FormMessage class="col-span-4 col-start-3" />
+              </FormItem>
+            </FormField>
 
-          <FormField v-slot="{ componentField }" name="password">
-            <FormItem class="grid gap-2">
-              <FormLabel>密码</FormLabel>
-              <FormControl>
-                <PasswordInput v-bind="componentField" autocomplete="new-password" />
-              </FormControl>
-              <FormMessage />
-              <p v-if="isEdit" class="text-xs text-muted-foreground">
-                编辑时留空表示不修改密码（当前为演示字段，不会改变用户数据）。
-              </p>
-            </FormItem>
-          </FormField>
+            <FormField v-slot="{ componentField }" name="lastName">
+              <FormItem class="grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0">
+                <FormLabel class="col-span-2 text-end">
+                  姓氏
+                </FormLabel>
+                <FormControl class="col-span-4">
+                  <Input v-bind="componentField" autocomplete="off" />
+                </FormControl>
+                <FormMessage class="col-span-4 col-start-3" />
+              </FormItem>
+            </FormField>
 
-          <FormField v-slot="{ componentField }" name="confirmPassword">
-            <FormItem class="grid gap-2">
-              <FormLabel>确认密码</FormLabel>
-              <FormControl>
-                <PasswordInput v-bind="componentField" autocomplete="new-password" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          </FormField>
+            <FormField v-slot="{ componentField }" name="username">
+              <FormItem class="grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0">
+                <FormLabel class="col-span-2 text-end">
+                  用户名
+                </FormLabel>
+                <FormControl class="col-span-4">
+                  <Input v-bind="componentField" autocomplete="username" />
+                </FormControl>
+                <FormMessage class="col-span-4 col-start-3" />
+              </FormItem>
+            </FormField>
+
+            <FormField v-slot="{ componentField }" name="email">
+              <FormItem class="grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0">
+                <FormLabel class="col-span-2 text-end">
+                  邮箱
+                </FormLabel>
+                <FormControl class="col-span-4">
+                  <Input v-bind="componentField" type="email" autocomplete="off" />
+                </FormControl>
+                <FormMessage class="col-span-4 col-start-3" />
+              </FormItem>
+            </FormField>
+
+            <FormField v-slot="{ componentField }" name="phoneNumber">
+              <FormItem class="grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0">
+                <FormLabel class="col-span-2 text-end">
+                  电话
+                </FormLabel>
+                <FormControl class="col-span-4">
+                  <Input v-bind="componentField" autocomplete="off" />
+                </FormControl>
+                <FormMessage class="col-span-4 col-start-3" />
+              </FormItem>
+            </FormField>
+
+            <FormField v-slot="{ value, handleChange }" name="role">
+              <FormItem class="grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0">
+                <FormLabel class="col-span-2 text-end">
+                  角色
+                </FormLabel>
+                <div class="col-span-4">
+                  <Select :model-value="value" @update:model-value="handleChange">
+                    <FormControl>
+                      <SelectTrigger class="w-full">
+                        <SelectValue placeholder="选择角色" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                    <SelectItem v-for="r in roles" :key="r.value" :value="r.value">
+                      {{ r.label }}
+                    </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <FormMessage class="col-span-4 col-start-3" />
+              </FormItem>
+            </FormField>
+
+            <FormField v-slot="{ componentField }" name="password">
+              <FormItem class="grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0">
+                <FormLabel class="col-span-2 text-end">
+                  密码
+                </FormLabel>
+                <FormControl class="col-span-4">
+                  <PasswordInput v-bind="componentField" autocomplete="new-password" />
+                </FormControl>
+                <FormMessage class="col-span-4 col-start-3" />
+                <p
+                  v-if="isEdit"
+                  class="col-span-4 col-start-3 text-xs text-muted-foreground"
+                >
+                  编辑时留空表示不修改密码（当前为演示字段，不会改变用户数据）。
+                </p>
+              </FormItem>
+            </FormField>
+
+            <FormField v-slot="{ componentField }" name="confirmPassword">
+              <FormItem class="grid grid-cols-6 items-center gap-x-4 gap-y-1 space-y-0">
+                <FormLabel class="col-span-2 text-end">
+                  确认密码
+                </FormLabel>
+                <FormControl class="col-span-4">
+                  <PasswordInput v-bind="componentField" autocomplete="new-password" />
+                </FormControl>
+                <FormMessage class="col-span-4 col-start-3" />
+              </FormItem>
+            </FormField>
+          </div>
         </div>
 
         <DialogFooter>

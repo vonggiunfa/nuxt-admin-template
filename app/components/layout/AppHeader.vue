@@ -25,14 +25,30 @@ const props = withDefaults(defineProps<{ bordered?: boolean }>(), {
 const scrollRoot = inject(SHELL_INSET_SCROLL_EL, ref<HTMLElement | null>(null))
 const offset = ref(0)
 
+const scrollListenerTarget = computed(() =>
+  scrollRoot.value ?? (import.meta.client ? window : null),
+)
+
+function readScrollTop(): number {
+  if (scrollRoot.value)
+    return scrollRoot.value.scrollTop
+  if (!import.meta.client)
+    return 0
+  return document.documentElement.scrollTop || document.body.scrollTop || 0
+}
+
 useEventListener(
-  scrollRoot,
+  scrollListenerTarget,
   'scroll',
   () => {
-    offset.value = scrollRoot.value?.scrollTop ?? 0
+    offset.value = readScrollTop()
   },
   { passive: true },
 )
+
+onMounted(() => {
+  offset.value = readScrollTop()
+})
 
 const scrollEffect = computed(() => offset.value > 10)
 

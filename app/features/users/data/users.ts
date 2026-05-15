@@ -3,9 +3,9 @@ import type { User } from '../schema'
 
 faker.seed(67890)
 
-/** 对标 react-template/features/users/data/users.ts */
+/** 对标 react-template/features/users/data/users.ts（本地演示条数为 50） */
 export function buildInitialUsers(): User[] {
-  return Array.from({ length: 500 }, () => {
+  return Array.from({ length: 50 }, () => {
     const firstName = faker.person.firstName()
     const lastName = faker.person.lastName()
     return {

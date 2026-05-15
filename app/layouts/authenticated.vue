@@ -3,10 +3,6 @@ import AppSidebar from '@/components/layout/AppSidebar.vue'
 import CommandMenu from '@/components/layout/CommandMenu.vue'
 import SkipToMain from '@/components/layout/SkipToMain.vue'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
-import { SHELL_INSET_SCROLL_EL } from '~/composables/shellScroll'
-
-const insetScrollEl = ref<HTMLElement | null>(null)
-provide(SHELL_INSET_SCROLL_EL, insetScrollEl)
 
 const { toggle } = useSearchMenu()
 
@@ -30,17 +26,10 @@ onBeforeUnmount(() => {
     <SkipToMain />
     <AppSidebar />
     <SidebarInset
-      class="@container/content flex max-h-svh min-h-svh min-w-0 flex-1 flex-col overflow-hidden"
+      class="@container/content min-w-0 has-data-[layout=fixed]:h-svh peer-data-[variant=inset]:has-data-[layout=fixed]:h-[calc(100svh-(var(--spacing)*4))]"
     >
-      <div class="flex min-h-0 flex-1 flex-col">
-        <div
-          ref="insetScrollEl"
-          class="min-h-0 flex-1 overflow-x-hidden overflow-y-auto"
-        >
-          <slot />
-        </div>
-        <CommandMenu />
-      </div>
+      <slot />
+      <CommandMenu />
     </SidebarInset>
   </SidebarProvider>
 </template>

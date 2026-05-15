@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CirclePlus } from 'lucide-vue-next'
+import { Check, CirclePlus } from 'lucide-vue-next'
 import type { Column } from '@tanstack/vue-table'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -111,7 +111,7 @@ function clearAll() {
                     : 'opacity-50 [&_svg]:invisible',
                 )"
               >
-                <span class="h-3 w-3 text-background">✓</span>
+                <Check class="h-4 w-4 text-background" />
               </div>
               <component
                 :is="option.icon"
