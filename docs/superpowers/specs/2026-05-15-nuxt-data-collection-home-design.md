@@ -41,7 +41,7 @@
 
 | 位置 | 变更 |
 |------|------|
-| `app/pages/index.vue` | 标题 **`数据采集`**；标题行 **`flex flex-wrap items-center justify-between gap-4`**，右侧 **「导出」** 按钮（**`outline`**、**小号**、`disabled`，MOCK）；删除仪表盘 blocks |
+| `app/pages/index.vue` | 标题 **`数据采集`**；标题行 **`flex flex-wrap items-center justify-between gap-4`**，右侧 **「导出」** MOCK：**形制对标** **`UsersPrimaryButtons`**「新建用户」——**`Button` 默认 `variant`/`size`（主色实心、`h-9`）、`<span>导出</span>` + Lucide **`Download` `:size="18"` `shrink-0`**，`type="button"`，恒定 **`disabled`**；删除仪表盘 blocks |
 | `AppSidebar.vue` | 文案与 **`tooltip`**：仪表盘 → 数据采集（路由仍为 `/`） |
 | `CommandMenu.vue` | 命令面板项：**数据采集**，目标 `/` |
 | **图标** | 暂保留 **`LayoutDashboard`**，避免无讨论下的额外视觉变更；若产品希望区分语义，可在实现时改为 **`Database`** 等 Lucide 图标并单独评审 |
@@ -85,7 +85,7 @@
 
 - **标题行**：**`flex flex-wrap items-center justify-between gap-4`**（窄屏时可换行，避免标题与按钮「顶死」）。
   - 左：**`h2`**「数据采集」，样式 **`text-2xl font-bold tracking-tight`**（与 **`users`** 等页一级标题惯例一致）。
-  - 右：**`Button`** 文案「**导出**」，**`variant="outline"`**、**小号**、`disabled`，MOCK 占位；不在 **`AppHeader`** 工具区内重复挂载，以免打断「页内信息与操作」的阅读动线。
+  - 右：**`Button`「导出」**，**形制对标** **`app/features/users/components/UsersPrimaryButtons.vue`**（与「新建用户」同档：`default` 主按钮、默认高度）。子节点 **`<span>导出</span>`** + **Lucide `Download` `:size="18"` `class="shrink-0"`**，**`type="button"`**，**`disabled`**（MOCK）；深浅色随 **`primary`** 语义 Token，禁用态随组件全局 **`disabled` 样式**。不在 **`AppHeader`** 工具区内重复挂载，以免打断「页内信息与操作」的阅读动线。
 - 可选一行 **`text-muted-foreground`** 说明「采集结果将显示在此处」类占位（短句）。
 
 ---
@@ -95,7 +95,7 @@
 - **窄屏 / 暗色**：底部条可读、边框与背景与主题一致。
 - **滚动**：仅上方区域滚动；调整窗口高度或增多占位内容时，底部条始终在 **主栏内容区底部** 可见且不随上文滚动跑出视口。
 - **采集页数**：初始无选中；**发送**在页数选中前 **`disabled`**；占位与选中态在亮/暗色下 **`SelectTrigger`** 可读（非「发灰失联」）。
-- **导出**：处于 **`disabled`**，无破坏性副作用。
+- **导出**：**`disabled`**，无破坏性副作用；视觉与 **Users**「新建用户」主按钮同档（含 **`Download` `:size="18"`**）。
 - **上传**：通过 **outline 图标按钮 + 程序化唤起** file picker；选文件后 **toast** 数量与先前行为一致。
 - **`pnpm run build`** 通过。
 - **设计系统自检**：仍为 **单壳**、`#main-content` **与 SkipToMain 不变**。
@@ -129,5 +129,5 @@
 | 采集页数字样 | **`SelectTrigger`** 使用 **`text-foreground`**（必要时 **`font-medium`**），解决对比度不足。 |
 | 采集页数默认 | **无选中**；占位「选择页数」。 |
 | 未选页数 + 发送 | **方案 A**：**发送 `disabled`**，不向 MOCK 注入隐式默认页数。 |
-| 首页标题区 | **`数据采集` 与「导出」同行** `justify-between`；**`outline` 小号 `disabled` MOCK**。 |
+| 首页标题区与导出 | **`数据采集` 与「导出」同行** `justify-between`；**导出** 对标 **Users「新建用户」** 主按钮（`default` + **`Download` `:size="18"`**），**`disabled` MOCK**（复次修订自初版 **`outline/small`**）。 |
 | 上传 | **`type="button"` outline 图标按钮** + **隐藏 `input[type=file]`**，点击 **`input.click()`**；焦点与 **`aria-label`** 落在按钮。 |

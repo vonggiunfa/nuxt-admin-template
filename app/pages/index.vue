@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Download } from 'lucide-vue-next'
 import AppHeader from '@/components/layout/AppHeader.vue'
 import AppMain from '@/components/layout/AppMain.vue'
 import { Button } from '@/components/ui/button'
@@ -18,8 +19,9 @@ definePageMeta({ layout: 'authenticated' })
               <h2 class="text-2xl font-bold tracking-tight">
                 数据采集
               </h2>
-              <Button variant="outline" size="sm" disabled type="button">
-                导出
+              <Button disabled type="button">
+                <span>导出</span>
+                <Download :size="18" class="shrink-0" />
               </Button>
             </div>
             <p class="mt-2 text-muted-foreground">
