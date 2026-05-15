@@ -21,14 +21,23 @@ import { toast } from 'vue-sonner'
 const PAGE_OPTIONS = [1, 5, 10, 20] as const
 
 const prompt = ref('')
-/** Select 的值使用字符串便于与 Radix/Reka Select 对齐 */
-const pageCount = ref<string>('10')
+/** Select：`undefined` 表示未选择（占位「选择页数」） */
+const pageCount = ref<string | undefined>(undefined)
 
-function pageCountNum(): number {
-  const n = Number(pageCount.value)
-  return PAGE_OPTIONS.includes(n as (typeof PAGE_OPTIONS)[number])
-    ? n
-    : PAGE_OPTIONS[Math.floor(PAGE_OPTIONS.length / 2)]
+const fileInputEl = ref<HTMLInputElement | null>(null)
+
+const selectedPageCount = computed(() => {
+  const raw = pageCount.value
+  if (raw === undefined || raw === '')
+    return undefined
+  const n = Number(raw)
+  return PAGE_OPTIONS.find((x) => x === n)
+})
+
+const sendDisabled = computed(() => selectedPageCount.value === undefined)
+
+function openFilePicker() {
+  fileInputEl.value?.click()
 }
 
 function onFileChange(ev: Event) {
@@ -41,12 +50,18 @@ function onFileChange(ev: Event) {
 }
 
 function onSubmit() {
-  const pages = pageCountNum()
-  pageCount.value = String(pages)
+  const pages = selectedPageCount.value
+  if (pages === undefined)
+    return
   toast.message('采集任务（演示）', {
     description:
       `${prompt.value.trim() ? `"${prompt.value.trim().slice(0, 80)}${prompt.value.length > 80 ? '…' : ''}" · ` : ''}页数 ${pages}`,
   })
+}
+
+function submitIfReady() {
+  if (!sendDisabled.value)
+    onSubmit()
 }
 </script>
 
@@ -61,7 +76,7 @@ function onSubmit() {
           'min-h-16 max-h-48 overflow-y-auto field-sizing-content',
         )
       "
-      @keydown.enter.exact.ctrl.prevent="onSubmit"
+      @keydown.enter.exact.ctrl.prevent="submitIfReady"
     />
     <InputGroupAddon
       align="block-end"
@@ -71,17 +86,23 @@ function onSubmit() {
         )
       "
     >
-      <Button variant="outline" size="icon" class="size-8 shrink-0" as-child>
-        <label class="relative flex size-8 cursor-pointer items-center justify-center overflow-hidden rounded-md">
-          <input
-            type="file"
-            class="absolute inset-0 cursor-pointer opacity-0"
-            multiple
-            aria-label="上传资源"
-            @change="onFileChange"
-          >
-          <Paperclip class="pointer-events-none size-4" aria-hidden="true" />
-        </label>
+      <input
+        ref="fileInputEl"
+        type="file"
+        class="sr-only"
+        tabindex="-1"
+        multiple
+        @change="onFileChange"
+      >
+      <Button
+        variant="outline"
+        size="icon"
+        type="button"
+        class="size-8 shrink-0"
+        aria-label="上传资源"
+        @click="openFilePicker"
+      >
+        <Paperclip class="size-4" aria-hidden="true" />
       </Button>
 
       <div class="flex min-w-0 shrink-0 items-center gap-2">
@@ -89,7 +110,11 @@ function onSubmit() {
           <SelectTrigger
             size="sm"
             aria-label="采集页数"
-            class="min-w-23"
+            :class="
+              cn(
+                'min-w-23 font-medium text-foreground data-placeholder:text-foreground',
+              )
+            "
           >
             <SelectValue placeholder="选择页数" />
           </SelectTrigger>
@@ -107,6 +132,7 @@ function onSubmit() {
           size="sm"
           variant="default"
           type="button"
+          :disabled="sendDisabled"
           @click="onSubmit"
         >
           <Send class="size-3.5" />

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import AppHeader from '@/components/layout/AppHeader.vue'
 import AppMain from '@/components/layout/AppMain.vue'
+import { Button } from '@/components/ui/button'
 import DataCollectionComposer from '@/features/data-collection/DataCollectionComposer.vue'
 
 definePageMeta({ layout: 'authenticated' })
@@ -13,9 +14,14 @@ definePageMeta({ layout: 'authenticated' })
       <div class="flex min-h-0 flex-1 flex-col gap-4">
         <div class="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto pb-4">
           <div>
-            <h2 class="text-2xl font-bold tracking-tight">
-              数据采集
-            </h2>
+            <div class="flex flex-wrap items-center justify-between gap-4">
+              <h2 class="text-2xl font-bold tracking-tight">
+                数据采集
+              </h2>
+              <Button variant="outline" size="sm" disabled type="button">
+                导出
+              </Button>
+            </div>
             <p class="mt-2 text-muted-foreground">
               采集结果将显示在此处。
             </p>
