@@ -1,17 +1,29 @@
 <script setup lang="ts">
-import { LogOut } from 'lucide-vue-next'
+import {
+  BadgeCheck,
+  CreditCard,
+  LogOut,
+  Sparkles,
+} from 'lucide-vue-next'
 import SignOutDialog from '@/components/layout/SignOutDialog.vue'
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar'
+import {
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
+} from '@/components/ui/sidebar'
 
 const signOutOpen = ref(false)
+const { isMobile } = useSidebar()
 </script>
 
 <template>
@@ -35,7 +47,7 @@ const signOutOpen = ref(false)
         </DropdownMenuTrigger>
         <DropdownMenuContent
           class="w-[--reka-dropdown-menu-trigger-width] min-w-56 rounded-lg"
-          side="bottom"
+          :side="isMobile ? 'bottom' : 'right'"
           align="end"
           :side-offset="4"
         >
@@ -51,7 +63,35 @@ const signOutOpen = ref(false)
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem @click.prevent="signOutOpen = true">
+          <DropdownMenuGroup>
+            <DropdownMenuItem class="gap-2">
+              <Sparkles class="size-4 text-muted-foreground" />
+              升级到专业版
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>
+            <DropdownMenuItem as-child class="p-0">
+              <NuxtLink
+                to="/settings/account"
+                class="relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none"
+              >
+                <BadgeCheck class="size-4 text-muted-foreground" />
+                账户
+              </NuxtLink>
+            </DropdownMenuItem>
+            <DropdownMenuItem as-child class="p-0">
+              <NuxtLink
+                to="/settings"
+                class="relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none"
+              >
+                <CreditCard class="size-4 text-muted-foreground" />
+                账单
+              </NuxtLink>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem variant="destructive" class="gap-2" @click.prevent="signOutOpen = true">
             <LogOut class="size-4" />
             退出登录
           </DropdownMenuItem>

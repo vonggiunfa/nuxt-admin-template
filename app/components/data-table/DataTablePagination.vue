@@ -43,14 +43,11 @@ const pageSizeModel = computed({
 </script>
 
 <template>
-  <div
-    :class="cn(
-      'flex items-center justify-between overflow-clip px-2',
-      '@max-2xl/content:flex-col-reverse @max-2xl/content:gap-4',
-      props.class,
-    )"
-    style="overflow-clip-margin: 1px"
-  >
+  <div :class="cn(
+    'flex items-center justify-between py-2',
+    '@max-2xl/content:flex-col-reverse @max-2xl/content:gap-4',
+    props.class,
+  )">
     <div class="flex w-full items-center justify-between">
       <div class="flex w-25 items-center justify-center text-sm font-medium @2xl/content:hidden">
         {{ currentPage }} / {{ totalPages }} 页
@@ -61,11 +58,7 @@ const pageSizeModel = computed({
             <SelectValue placeholder="分页" />
           </SelectTrigger>
           <SelectContent side="top">
-            <SelectItem
-              v-for="size in [10, 20, 30, 40, 50]"
-              :key="size"
-              :value="`${size}`"
-            >
+            <SelectItem v-for="size in [10, 20, 30, 40, 50]" :key="size" :value="`${size}`">
               {{ size }}
             </SelectItem>
           </SelectContent>
@@ -81,21 +74,13 @@ const pageSizeModel = computed({
         {{ currentPage }} / {{ totalPages }} 页
       </div>
       <div class="flex items-center space-x-2">
-        <Button
-          variant="outline"
-          class="size-8 p-0 @max-md/content:hidden"
-          :disabled="!tanstackTable.getCanPreviousPage()"
-          @click="tanstackTable.setPageIndex(0)"
-        >
+        <Button variant="outline" class="size-8 p-0 @max-md/content:hidden"
+          :disabled="!tanstackTable.getCanPreviousPage()" @click="tanstackTable.setPageIndex(0)">
           <span class="sr-only">第一页</span>
           <ChevronsLeft class="h-4 w-4" />
         </Button>
-        <Button
-          variant="outline"
-          class="size-8 p-0"
-          :disabled="!tanstackTable.getCanPreviousPage()"
-          @click="tanstackTable.previousPage()"
-        >
+        <Button variant="outline" class="size-8 p-0" :disabled="!tanstackTable.getCanPreviousPage()"
+          @click="tanstackTable.previousPage()">
           <span class="sr-only">上一页</span>
           <ChevronLeft class="h-4 w-4" />
         </Button>
@@ -104,32 +89,20 @@ const pageSizeModel = computed({
           <span v-if="pageNumber === '...'" class="px-1 text-sm text-muted-foreground">
             ...
           </span>
-          <Button
-            v-else
-            :variant="currentPage === pageNumber ? 'default' : 'outline'"
-            class="h-8 min-w-8 px-2"
-            @click="tanstackTable.setPageIndex((pageNumber as number) - 1)"
-          >
+          <Button v-else :variant="currentPage === pageNumber ? 'default' : 'outline'" class="h-8 min-w-8 px-2"
+            @click="tanstackTable.setPageIndex((pageNumber as number) - 1)">
             <span class="sr-only">{{ pageNumber }} 页</span>
             {{ pageNumber }}
           </Button>
         </div>
 
-        <Button
-          variant="outline"
-          class="size-8 p-0"
-          :disabled="!tanstackTable.getCanNextPage()"
-          @click="tanstackTable.nextPage()"
-        >
+        <Button variant="outline" class="size-8 p-0" :disabled="!tanstackTable.getCanNextPage()"
+          @click="tanstackTable.nextPage()">
           <span class="sr-only">下一页</span>
           <ChevronRight class="h-4 w-4" />
         </Button>
-        <Button
-          variant="outline"
-          class="size-8 p-0 @max-md/content:hidden"
-          :disabled="!tanstackTable.getCanNextPage()"
-          @click="tanstackTable.setPageIndex(tanstackTable.getPageCount() - 1)"
-        >
+        <Button variant="outline" class="size-8 p-0 @max-md/content:hidden" :disabled="!tanstackTable.getCanNextPage()"
+          @click="tanstackTable.setPageIndex(tanstackTable.getPageCount() - 1)">
           <span class="sr-only">最后一页</span>
           <ChevronsRight class="h-4 w-4" />
         </Button>

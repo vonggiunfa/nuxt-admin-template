@@ -16,7 +16,7 @@ globs: "**/*.{vue,ts}"
 ## 校验行为
 
 - **Schema**：字段规则、错误文案集中在 **zod schema**（可按页面或领域拆模块），避免在模板里散落魔法字符串。
-- **触发时机**：默认与当前工程一致——**首次提交**即展示字段级错误；若改为 `blur` 等策略，须**全站同类表单统一**，并更新本文或设计说明。
+- **触发时机（全站默认）**：**仅在点击提交（submit）时**做表单级校验并展示字段错误——对应 **`vee-validate` `configure`**：`validateOnBlur` / `validateOnChange` / `validateOnInput` / `validateOnModelUpdate` **均为 `false`**（见 `app/plugins/vee-validate-config.ts`）。**不要在各页单独再默认打开失焦即校验**；若个别页面必须「输入中 / 失焦」校验，须在**该机位**显式给 `FormField` 传入 `validate-on-blur` 等 props，并在 PR 里说明原因。
 - **文案**：同类字段在全站应**同一套提示风格**（语气、语言、长度级），避免同义反复或互相矛盾。
 
 ## 提交流程与反馈

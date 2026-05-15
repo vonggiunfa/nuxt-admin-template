@@ -47,6 +47,24 @@ function setDark(value: boolean) {
           </div>
           仪表盘
         </CommandItem>
+        <CommandItem
+          value="个人资料"
+          @select="runCommand(() => navigateTo('/settings'))"
+        >
+          <div class="flex size-4 items-center justify-center">
+            <ArrowRight class="size-2 text-muted-foreground/80" />
+          </div>
+          个人资料
+        </CommandItem>
+        <CommandItem
+          value="账户"
+          @select="runCommand(() => navigateTo('/settings/account'))"
+        >
+          <div class="flex size-4 items-center justify-center">
+            <ArrowRight class="size-2 text-muted-foreground/80" />
+          </div>
+          账户
+        </CommandItem>
       </CommandGroup>
       <CommandSeparator />
       <CommandGroup heading="主题">
