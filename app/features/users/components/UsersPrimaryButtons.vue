@@ -12,8 +12,8 @@ function openAdd() {
 </script>
 
 <template>
-  <Button class="space-x-1" @click="openAdd">
+  <Button @click="openAdd">
     <span>新建用户</span>
-    <Plus :size="18" />
+    <Plus :size="18" class="shrink-0" />
   </Button>
 </template>

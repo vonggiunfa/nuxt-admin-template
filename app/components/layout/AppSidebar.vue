@@ -7,7 +7,6 @@ import {
   Users,
   Wrench,
 } from 'lucide-vue-next'
-import NavUser from '@/components/layout/NavUser.vue'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import {
   DropdownMenu,
@@ -20,7 +19,6 @@ import {
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupLabel,
   SidebarHeader,
@@ -50,6 +48,11 @@ function isSettingsSectionActive(): boolean {
 
 function isSettingsChildActive(to: string): boolean {
   return route.path === to
+}
+
+/** 收起态下拉：对标 react `checkIsActive(href, item)`，父项无 url 时仅当某子路径精确匹配时为 true */
+function isSettingsCollapsedTriggerActive(): boolean {
+  return SETTINGS_CHILDREN.some((c) => route.path === c.to)
 }
 
 /** 对标 react `nav-group`：`defaultOpen` 初次挂载；路由进入设置后再展开 */
@@ -124,7 +127,7 @@ watch(
               <DropdownMenuTrigger as-child>
                 <SidebarMenuButton
                   tooltip="设置"
-                  :is-active="isSettingsSectionActive()"
+                  :is-active="isSettingsCollapsedTriggerActive()"
                 >
                   <Settings />
                   <span>设置</span>
@@ -155,7 +158,7 @@ watch(
 
             <Collapsible v-else v-model:open="settingsCollapsibleOpen" class="group/collapsible w-full">
               <CollapsibleTrigger as-child>
-                <SidebarMenuButton tooltip="设置" :is-active="isSettingsSectionActive()">
+                <SidebarMenuButton tooltip="设置">
                   <Settings />
                   <span>设置</span>
                   <ChevronRight class="ms-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 rtl:rotate-180" />
@@ -183,9 +186,6 @@ watch(
       </SidebarGroup>
     </SidebarContent>
 
-    <SidebarFooter>
-      <NavUser />
-    </SidebarFooter>
     <SidebarRail />
   </Sidebar>
 </template>
